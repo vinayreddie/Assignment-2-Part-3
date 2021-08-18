@@ -1,0 +1,37 @@
+﻿@page "/blocks"
+
+@using CP380_B1_BlockList.Models
+@using CP380_B3_BlockBlazor.Data
+@inject BlockService blockService  
+
+<h3>Blocks</h3>
+
+@if (blocklist == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="card-columns">
+    @foreach (var block in blocklist)
+    {
+        <div class="card" style="width: 24rem;">
+            <div class="card-body">
+                <h5 class="card-title">Hash: @block.Hash</h5>
+                <p class="card-text">Nonce: @block.Nonce</p>
+                <p class="card-text">Previous Hash: "@block.PreviousHash"</p>
+            </div>
+        </div>
+    }
+</div>
+}
+
+@code {
+    IEnumerable<Block> blocklist;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // TODO: fetch blocks from the BlockService
+        blocklist = await blockService.GetBlocksAsync();
+    }
+}
